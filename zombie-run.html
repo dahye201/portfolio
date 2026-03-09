@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zombie Run Festival — Dahye Yu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ffffff;--ink:#111111;--ink2:#888888;--ink3:#bbbbbb;--rule:#e8e8e8;--hover:#f5f5f5;--accent:#0033ff;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+.cur{position:fixed;width:6px;height:6px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+.cur-ring{position:fixed;width:28px;height:28px;border:1px solid rgba(0,51,255,.25);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .35s cubic-bezier(.16,1,.3,1),height .35s,border-color .25s;}
+body:has(a:hover) .cur-ring{width:48px;height:48px;border-color:rgba(0,51,255,.5);}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid var(--rule);background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 48px;height:56px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;}
+.nav-logo{font-family:'Instrument Serif',serif;font-style:italic;font-size:18px;color:var(--ink);text-decoration:none;}
+.nav-center{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);}
+.nav-right{display:flex;justify-content:flex-end;gap:28px;}
+.nav-right a{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink2);text-decoration:none;transition:color .15s;}
+.nav-right a:hover{color:var(--ink);}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 48px;}
+
+/* HERO — dark cover using logo */
+.cs-hero{padding-top:56px;}
+.cs-breadcrumb{padding:20px 0;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;}
+.cs-breadcrumb-left{display:flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3);}
+.cs-breadcrumb-left a{color:var(--ink3);text-decoration:none;transition:color .15s;}
+.cs-breadcrumb-left a:hover{color:var(--ink);}
+.sep{color:var(--rule);}
+.cs-breadcrumb-right{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3);}
+
+.cs-title-block{padding:64px 0 0;}
+.cs-overline{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;}
+.cs-title{font-family:'Instrument Serif',serif;font-size:clamp(52px,8vw,104px);font-weight:400;line-height:.95;letter-spacing:-0.03em;margin-bottom:40px;}
+.cs-title em{font-style:italic;color:var(--ink2);}
+.cs-meta-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--rule);border-left:1px solid var(--rule);}
+.cs-meta-cell{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:20px 24px;}
+.cs-meta-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;}
+.cs-meta-value{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.05em;color:var(--ink);}
+
+/* COVER — black for logo pop */
+.cs-cover{background:#000;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:480px;}
+.cs-cover img{width:60%;max-width:600px;display:block;padding:80px 0;}
+
+/* BODY */
+.cs-body{padding:80px 0;}
+.cs-section{margin-bottom:96px;}
+.cs-section-header{border-top:1px solid var(--rule);padding:20px 0 40px;display:flex;gap:40px;align-items:baseline;}
+.cs-num{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--ink3);flex-shrink:0;width:36px;}
+.cs-section-title{font-family:'Instrument Serif',serif;font-size:clamp(26px,3.2vw,42px);font-weight:400;letter-spacing:-0.02em;line-height:1.1;}
+.cs-section-title em{font-style:italic;color:var(--ink2);}
+
+.cs-2col{display:grid;grid-template-columns:36px 1fr;gap:0 40px;}
+.cs-col{grid-column:2;}
+.body-text{font-size:15px;line-height:1.85;color:var(--ink2);max-width:680px;}
+.body-text+.body-text{margin-top:18px;}
+.body-text strong{color:var(--ink);font-weight:400;}
+
+/* STAT ROW */
+.stat-bar{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid var(--rule);margin-top:32px;}
+.stat-cell{border-right:1px solid var(--rule);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:24px 20px;}
+.stat-num{font-family:'Instrument Serif',serif;font-size:40px;font-style:italic;color:var(--ink);line-height:1;margin-bottom:6px;}
+.stat-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);}
+.stat-note{font-size:12px;color:var(--ink2);margin-top:6px;line-height:1.5;}
+
+/* IMAGES */
+.img-full{width:100%;display:block;border-radius:4px;margin-top:32px;}
+.img-full-border{width:100%;display:block;border:1px solid var(--rule);border-radius:4px;margin-top:32px;}
+.img-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:32px;}
+.img-2col img{width:100%;display:block;border-radius:4px;object-fit:cover;}
+.img-3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:32px;}
+.img-3col img{width:100%;display:block;border-radius:4px;object-fit:cover;aspect-ratio:4/3;}
+.img-caption{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3);margin-top:10px;}
+
+/* ROLE CHIPS */
+.role-grid{display:grid;grid-template-columns:repeat(3,1fr);border-left:1px solid var(--rule);margin-top:32px;}
+.role-card{border-right:1px solid var(--rule);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:28px 24px;transition:background .2s;}
+.role-card:hover{background:var(--hover);}
+.role-icon{font-size:22px;margin-bottom:14px;}
+.role-title{font-family:'Instrument Serif',serif;font-size:17px;font-style:italic;margin-bottom:8px;}
+.role-desc{font-size:12px;line-height:1.65;color:var(--ink2);}
+
+/* FULL BLEED PHOTO with overlay text */
+.photo-callout{position:relative;margin-top:32px;border-radius:4px;overflow:hidden;}
+.photo-callout img{width:100%;display:block;max-height:520px;object-fit:cover;}
+.photo-callout-label{position:absolute;bottom:24px;left:24px;background:rgba(0,0,0,.7);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;padding:6px 12px;border-radius:2px;}
+
+/* NEXT */
+.cs-next{border-top:1px solid var(--rule);padding:60px 0 80px;display:flex;justify-content:space-between;align-items:center;}
+.cs-next-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;}
+.cs-next-title{font-family:'Instrument Serif',serif;font-size:clamp(28px,3vw,44px);font-weight:400;letter-spacing:-0.02em;}
+.cs-next-link{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);transition:color .2s;}
+.cs-next-link:hover{color:var(--accent);}
+.cs-next-arrow{width:48px;height:48px;border:1px solid var(--rule);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;transition:border-color .2s,background .2s,color .2s,transform .3s cubic-bezier(.16,1,.3,1);}
+.cs-next-link:hover .cs-next-arrow{border-color:var(--accent);background:var(--accent);color:#fff;transform:rotate(-45deg);}
+
+footer{border-top:1px solid var(--rule);max-width:1200px;margin:0 auto;padding:20px 48px;display:flex;justify-content:space-between;align-items:center;}
+footer span{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s cubic-bezier(.16,1,.3,1);}
+.reveal.in{opacity:1;transform:none;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+@media(max-width:768px){
+  .nav-inner,.wrap{padding:0 20px;}.nav-center{display:none;}
+  .cs-meta-row{grid-template-columns:1fr 1fr;}.cs-2col{grid-template-columns:1fr;}.cs-col{grid-column:1;}
+  .stat-bar{grid-template-columns:1fr 1fr;}.role-grid{grid-template-columns:1fr;}
+  .img-2col,.img-3col{grid-template-columns:1fr;}
+  .cs-cover img{width:90%;}
+  .cs-next{flex-direction:column;align-items:flex-start;gap:32px;}
+  footer{flex-direction:column;gap:8px;text-align:center;padding:20px;}
+}
+</style>
+</head>
+<body>
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="cur-ring"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Dahye Yu</a>
+    <span class="nav-center">Case Study</span>
+    <div class="nav-right">
+      <a href="index.html#work">Work</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="cs-hero">
+  <div class="wrap">
+    <div class="cs-breadcrumb">
+      <div class="cs-breadcrumb-left"><a href="index.html">Work</a><span class="sep">/</span><span>Zombie Run Festival</span></div>
+      <span class="cs-breadcrumb-right">03 / 04</span>
+    </div>
+    <div class="cs-title-block" style="opacity:0;animation:fadeUp .9s ease .1s forwards;">
+      <div class="cs-overline">Brand Design · Package Design · Logo Design</div>
+      <h1 class="cs-title">Zombie<br><em>Run</em></h1>
+      <div class="cs-meta-row">
+        <div class="cs-meta-cell"><div class="cs-meta-label">Role</div><div class="cs-meta-value">Brand, Package & Logo Design</div></div>
+        <div class="cs-meta-cell"><div class="cs-meta-label">Since</div><div class="cs-meta-value">2013</div></div>
+        <div class="cs-meta-cell"><div class="cs-meta-label">Scale</div><div class="cs-meta-value">7 Cities Across Korea</div></div>
+        <div class="cs-meta-cell"><div class="cs-meta-label">Participants</div><div class="cs-meta-value">100,000+</div></div>
+      </div>
+    </div>
+  </div>
+  <!-- Black cover for logo impact -->
+  <div class="cs-cover">
+    <img src="images/zombie-logo.png" alt="Zombie Run — Logo">
+  </div>
+</section>
+
+<!-- BODY -->
+<div class="wrap">
+<div class="cs-body">
+
+  <!-- 01 OVERVIEW -->
+  <div class="cs-section reveal">
+    <div class="cs-section-header"><span class="cs-num">01</span><h2 class="cs-section-title">Project <em>Overview</em></h2></div>
+    <div class="cs-2col"><div></div><div class="cs-col">
+      <p class="body-text">Zombie Run is <strong>Korea's first zombie-themed sports festival</strong> — a night race where runners are chased through a course by zombie actors in full makeup and costume. The event has grown from a single Seoul edition in 2013 to a <strong>national tour across 7 cities</strong>, with over 100,000 total participants.</p>
+      <p class="body-text">Under the motto <strong>"Be Alive"</strong>, the festival blends the physicality of a fun run with the thrill of a horror experience — creating a uniquely charged atmosphere that demanded a brand identity to match.</p>
+    </div></div>
+    <div class="stat-bar">
+      <div class="stat-cell"><div class="stat-num">100k+</div><div class="stat-label">Total Participants</div><div class="stat-note">Across all cities since launch</div></div>
+      <div class="stat-cell"><div class="stat-num">7</div><div class="stat-label">Cities</div><div class="stat-note">National tour across South Korea</div></div>
+      <div class="stat-cell"><div class="stat-num">2013</div><div class="stat-label">Founded</div><div class="stat-note">Korea's first zombie night race</div></div>
+      <div class="stat-cell"><div class="stat-num">3</div><div class="stat-label">Deliverables</div><div class="stat-note">Logo, Brand System, Package Design</div></div>
+    </div>
+  </div>
+
+  <!-- 02 BRIEF -->
+  <div class="cs-section reveal">
+    <div class="cs-section-header"><span class="cs-num">02</span><h2 class="cs-section-title">The <em>Brief</em></h2></div>
+    <div class="cs-2col"><div></div><div class="cs-col">
+      <p class="body-text">The challenge was to build a brand identity that could hold its own in two very different contexts: <strong>before the event</strong>, it needed to generate excitement and urgency — something bold enough to sell tickets and build social buzz. <strong>During the event</strong>, the brand had to live on merchandise, signage, photo backdrops, and merchandise bags carried by thousands of participants.</p>
+      <p class="body-text">The identity had to feel <strong>visceral and cinematic</strong> without becoming a Halloween cliché — it needed to be wearable, likeable, and memorable even after the adrenaline wore off.</p>
+    </div></div>
+    <!-- T-shirts + venue: brand in the wild -->
+    <div class="img-2col">
+      <img src="images/zombie-tshirt.png" alt="Zombie Run T-shirt — Brand on participants" style="aspect-ratio:3/2;object-fit:cover;">
+      <img src="images/zombie-cap.png" alt="Zombie Run Cap — Brand at event" style="aspect-ratio:3/2;object-fit:cover;">
+    </div>
+    <p class="img-caption">The logo on participant merchandise — T-shirts and snapback caps worn at the event</p>
+  </div>
+
+  <!-- 03 LOGO -->
+  <div class="cs-section reveal">
+    <div class="cs-section-header"><span class="cs-num">03</span><h2 class="cs-section-title">Logo &amp; <em>Identity</em></h2></div>
+    <div class="cs-2col"><div></div><div class="cs-col">
+      <p class="body-text">The wordmark was designed to communicate <strong>speed, distortion, and danger</strong> simultaneously. A glitch-style chromatic aberration effect was applied to the letterforms — a nod to the horror film aesthetic and the disorienting feeling of running through a zombie course at night.</p>
+      <p class="body-text">The bold slab serif base keeps the mark highly legible at small sizes on merchandise, while the layered RGB offset gives it the distinctive character that sets it apart from conventional fun-run branding. <strong>No colour other than black and white is needed</strong> — the effect carries all the energy.</p>
+    </div></div>
+    <div class="photo-callout">
+      <img src="images/zombie-backdrop.png" alt="Zombie Run — Photo Backdrop at Event">
+      <span class="photo-callout-label">Logo tiled on official photo backdrop — used at all 7 city events</span>
+    </div>
+  </div>
+
+  <!-- 04 MERCHANDISE -->
+  <div class="cs-section reveal">
+    <div class="cs-section-header"><span class="cs-num">04</span><h2 class="cs-section-title">Package &amp;<br><em>Merchandise Design</em></h2></div>
+    <div class="cs-2col"><div></div><div class="cs-col">
+      <p class="body-text">Every participant receives a <strong>race kit on arrival</strong> — a branded drawstring bag containing their wristband, map, and event materials. The packaging needed to function as both a practical carry bag during the race and a <strong>keepsake worth holding onto</strong> after the event.</p>
+      <p class="body-text">The race kit bag, T-shirt, snapback cap, and wristband together form a cohesive participant experience — each touchpoint reinforcing the same visual identity from the moment of check-in through the finish line and beyond.</p>
+    </div></div>
+    <div class="img-2col">
+      <img src="images/zombie-bag.png" alt="Zombie Run — Race Kit Bag" style="aspect-ratio:3/2;object-fit:cover;">
+      <img src="images/zombie-participants.png" alt="Zombie Run — Participants with costumes" style="aspect-ratio:3/2;object-fit:cover;">
+    </div>
+    <p class="img-caption">Left: Branded race kit bag in action at the event. Right: Participants in costume celebrating after the finish.</p>
+  </div>
+
+  <!-- 05 EXPERIENCE -->
+  <div class="cs-section reveal">
+    <div class="cs-section-header"><span class="cs-num">05</span><h2 class="cs-section-title">Brand in the <em>Experience</em></h2></div>
+    <div class="cs-2col"><div></div><div class="cs-col">
+      <p class="body-text">A key design challenge was ensuring the brand felt <strong>consistent across wildly different visual contexts</strong> — from sunlit ticket exchange queues to pitch-black night race scenarios. The identity had to hold up in natural daylight, under stage lights, against neon, and on printed signage.</p>
+      <p class="body-text">The race start gate, signage, and branded touchpoints created a distinct visual corridor — with the Zombie Run identity marking every moment from <strong>arrival to finish line.</strong></p>
+    </div></div>
+    <!-- START gate + venue crowd -->
+    <div class="photo-callout">
+      <img src="images/zombie-start.png" alt="Zombie Run — START Gate at Night">
+      <span class="photo-callout-label">Participants crossing the branded START gate — the opening moment of the race</span>
+    </div>
+    <div class="img-2col" style="margin-top:12px;">
+      <img src="images/zombie-venue.png" alt="Zombie Run — Venue with crowds" style="aspect-ratio:3/2;object-fit:cover;">
+      <img src="images/zombie-venue2.png" alt="Zombie Run — Venue aerial" style="aspect-ratio:3/2;object-fit:cover;">
+    </div>
+    <p class="img-caption">Ticket exchange tents and crowd at one of the 7 city venues — brand deployed at full scale</p>
+  </div>
+
+  <!-- 06 ZOMBIE ACTORS -->
+  <div class="cs-section reveal">
+    <div class="cs-section-header"><span class="cs-num">06</span><h2 class="cs-section-title">Behind the <em>Scenes</em></h2></div>
+    <div class="cs-2col"><div></div><div class="cs-col">
+      <p class="body-text">The event employed hundreds of zombie actors per city — each given professional SFX makeup before taking their positions along the course. The <strong>makeup station</strong> is a production in itself: a long-table operation with multiple artists working simultaneously, transforming volunteers into convincing monsters.</p>
+      <p class="body-text">The brand extended here too — makeup artists wore the Zombie Run crew T-shirt, reinforcing a unified identity behind the curtain as much as in front of it.</p>
+    </div></div>
+    <div class="photo-callout">
+      <img src="images/zombie-makeup.png" alt="Zombie Run — SFX Makeup Station Behind the Scenes">
+      <span class="photo-callout-label">Behind the scenes — professional SFX makeup station preparing zombie actors</span>
+    </div>
+    <div class="img-2col" style="margin-top:12px;">
+      <img src="images/zombie-actors.png" alt="Zombie Run — Zombie actors on balcony" style="aspect-ratio:3/2;object-fit:cover;">
+      <img src="images/zombie-group.png" alt="Zombie Run — Group photo runners and zombies" style="aspect-ratio:3/2;object-fit:cover;">
+    </div>
+    <p class="img-caption">Left: Zombie actors stationed along the course. Right: Runners and actors together post-event — "Be Alive."</p>
+  </div>
+
+  <!-- 07 OUTCOME -->
+  <div class="cs-section reveal">
+    <div class="cs-section-header"><span class="cs-num">07</span><h2 class="cs-section-title">Outcome &amp;<br><em>Reflection</em></h2></div>
+    <div class="cs-2col"><div></div><div class="cs-col">
+      <p class="body-text">Zombie Run grew from a one-city experiment into a national event series that has welcomed over <strong>100,000 participants</strong> across Korea. The brand identity became central to that growth — a recognisable mark that people wanted to wear, share, and come back for.</p>
+      <p class="body-text">This project taught me that <strong>brand design for live experiences operates at a completely different scale</strong> than digital product design. Every element — from a logo embroidered on a cap to a banner stretched across a START gate — needs to survive contact with the real world: movement, weather, darkness, and the chaos of thousands of people having the time of their lives.</p>
+    </div></div>
+  </div>
+
+  <!-- NEXT -->
+  <div class="cs-next reveal">
+    <div>
+      <div class="cs-next-label">Next Project</div>
+      <div class="cs-next-title">My Goals App</div>
+    </div>
+    <a href="mygoals.html" class="cs-next-link">View Case Study <span class="cs-next-arrow">↗</span></a>
+  </div>
+
+</div>
+</div>
+
+<footer>
+  <span>© 2025 Dahye Yu</span>
+  <span>Zombie Run — Case Study</span>
+  <span><a href="index.html" style="color:var(--ink3);text-decoration:none;">← Back to Work</a></span>
+</footer>
+
+<script>
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+const io=new IntersectionObserver(es=>es.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('in'),i*70);}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

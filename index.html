@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dahye Yu — Product Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff; --ink: #111111; --ink2: #888888; --ink3: #bbbbbb;
+  --rule: #e8e8e8; --hover-bg: #f5f5f5; --accent: #0033ff;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; font-weight: 300; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+.cur { position: fixed; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+.cur-ring { position: fixed; width: 28px; height: 28px; border: 1px solid rgba(0,51,255,.25); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: width .35s cubic-bezier(.16,1,.3,1), height .35s, border-color .25s; }
+body:has(a:hover) .cur-ring { width: 48px; height: 48px; border-color: rgba(0,51,255,.5); }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; border-bottom: 1px solid var(--rule); background: rgba(255,255,255,0.94); backdrop-filter: blur(8px); }
+.nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 48px; height: 56px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+.nav-logo { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 18px; color: var(--ink); text-decoration: none; }
+.nav-center { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink3); }
+.nav-right { display: flex; justify-content: flex-end; gap: 28px; }
+.nav-right a { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink2); text-decoration: none; transition: color .15s; }
+.nav-right a:hover { color: var(--ink); }
+
+/* HERO */
+.hero { padding-top: 56px; border-bottom: 1px solid var(--rule); }
+.hero-inner { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+.hero-top { border-bottom: 1px solid var(--rule); padding: 20px 0; display: flex; justify-content: space-between; align-items: center; }
+.hero-top-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink3); }
+.hero-top-avail { display: flex; align-items: center; gap: 7px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink2); }
+.avail-dot { width: 6px; height: 6px; background: #00bb55; border-radius: 50%; animation: blink 2.5s ease infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.hero-title-wrap { padding: 64px 0 56px; border-bottom: 1px solid var(--rule); opacity: 0; animation: fadeUp .9s ease .1s forwards; }
+.hero-title { font-family: 'Instrument Serif', serif; font-size: clamp(64px, 9.5vw, 128px); font-weight: 400; line-height: .96; letter-spacing: -0.03em; }
+.hero-title em { font-style: italic; color: var(--ink2); }
+.hero-title .blue { color: var(--accent); }
+
+.hero-bottom { padding: 28px 0 48px; display: grid; grid-template-columns: repeat(12,1fr); gap: 0 24px; align-items: end; opacity: 0; animation: fadeUp .8s ease .3s forwards; }
+.hero-desc { grid-column: 1/6; font-size: 15px; line-height: 1.75; color: var(--ink2); }
+.hero-desc strong { color: var(--ink); font-weight: 400; }
+.hero-meta { grid-column: 8/13; display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+.hero-meta-item { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--ink3); text-transform: uppercase; }
+.hero-meta-item span { color: var(--ink); }
+
+/* WORK */
+.work { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+.section-bar { padding: 20px 0; border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; }
+.section-bar-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink3); }
+
+.project-row { display: grid; grid-template-columns: 56px 1fr 160px 120px; gap: 0 40px; align-items: center; border-bottom: 1px solid var(--rule); padding: 32px 0; text-decoration: none; color: var(--ink); position: relative; transition: background .2s; cursor: none; }
+.project-row::after { content: ''; position: absolute; inset: 0 -48px; background: var(--hover-bg); opacity: 0; transition: opacity .2s; z-index: -1; }
+.project-row:hover::after { opacity: 1; }
+.pr-num { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink3); align-self: start; padding-top: 5px; transition: color .2s; }
+.project-row:hover .pr-num { color: var(--accent); }
+.pr-cat { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink3); margin-bottom: 8px; transition: color .2s; }
+.project-row:hover .pr-cat { color: var(--accent); }
+.pr-title { font-family: 'Instrument Serif', serif; font-size: clamp(28px, 3.2vw, 44px); font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 10px; }
+.pr-desc { font-size: 13px; line-height: 1.65; color: var(--ink2); max-width: 540px; transition: color .2s; }
+.project-row:hover .pr-desc { color: var(--ink); }
+.pr-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.pr-tag { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); border: 1px solid var(--rule); padding: 3px 8px; border-radius: 2px; transition: border-color .2s, color .2s; }
+.project-row:hover .pr-tag { border-color: var(--accent); color: var(--accent); }
+.pr-type { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); transition: color .2s; }
+.project-row:hover .pr-type { color: var(--ink); }
+.pr-cta { display: flex; align-items: center; justify-content: flex-end; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); transition: color .2s; }
+.pr-cta-arrow { width: 32px; height: 32px; border: 1px solid var(--rule); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: border-color .2s, background .2s, color .2s, transform .3s cubic-bezier(.16,1,.3,1); flex-shrink: 0; }
+.project-row:hover .pr-cta { color: var(--ink); }
+.project-row:hover .pr-cta-arrow { border-color: var(--accent); background: var(--accent); color: #fff; transform: rotate(-45deg); }
+
+/* PROCESS */
+.process { max-width: 1200px; margin: 80px auto 0; padding: 0 48px; border-top: 1px solid var(--rule); }
+.process-grid { display: grid; grid-template-columns: repeat(4,1fr); border-left: 1px solid var(--rule); }
+.process-step { border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 36px 28px; transition: background .2s; }
+.process-step:hover { background: var(--hover-bg); }
+.ps-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--ink3); margin-bottom: 20px; }
+.ps-title { font-family: 'Instrument Serif', serif; font-size: 22px; font-style: italic; line-height: 1.15; margin-bottom: 12px; letter-spacing: -0.01em; }
+.ps-desc { font-size: 12px; line-height: 1.65; color: var(--ink2); }
+
+/* ABOUT STRIP */
+.about-strip { max-width: 1200px; margin: 80px auto 0; padding: 0 48px; border-top: 1px solid var(--rule); }
+.about-inner { display: grid; grid-template-columns: repeat(12,1fr); gap: 0 24px; padding: 56px 0 80px; }
+.about-title-col { grid-column: 1/6; }
+.about-title { font-family: 'Instrument Serif', serif; font-size: clamp(36px,4.5vw,60px); font-weight: 400; line-height: 1.05; letter-spacing: -0.025em; }
+.about-title em { font-style: italic; color: var(--ink2); }
+.about-body-col { grid-column: 7/13; padding-top: 6px; }
+.about-body { font-size: 15px; line-height: 1.8; color: var(--ink2); margin-bottom: 32px; }
+.about-body strong { color: var(--ink); font-weight: 400; }
+.skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+.skill-cell { border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink2); transition: background .15s, color .15s; cursor: default; }
+.skill-cell:hover { background: var(--ink); color: var(--bg); }
+
+/* CONTACT STRIP */
+.contact-strip { border-top: 1px solid var(--rule); margin-top: 0; }
+.contact-strip-inner { max-width: 1200px; margin: 0 auto; padding: 72px 48px 80px; display: grid; grid-template-columns: repeat(12,1fr); gap: 0 24px; align-items: end; }
+.contact-left { grid-column: 1/9; }
+.contact-title { font-family: 'Instrument Serif', serif; font-size: clamp(48px,7vw,96px); font-weight: 400; line-height: .96; letter-spacing: -0.03em; margin-bottom: 36px; }
+.contact-title em { font-style: italic; color: var(--ink2); }
+.contact-email-link { display: inline-flex; align-items: center; gap: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.05em; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 4px; transition: color .2s, border-color .2s; }
+.contact-email-link:hover { color: var(--accent); border-color: var(--accent); }
+.contact-email-link::after { content: '↗'; font-size: 16px; }
+.contact-right { grid-column: 10/13; display: flex; flex-direction: column; gap: 6px; align-items: flex-end; padding-bottom: 8px; }
+.contact-info { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); text-align: right; line-height: 2.2; }
+
+footer { border-top: 1px solid var(--rule); max-width: 1200px; margin: 0 auto; padding: 20px 48px; display: flex; justify-content: space-between; align-items: center; }
+footer span { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); }
+
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity .65s ease, transform .65s cubic-bezier(.16,1,.3,1); }
+.reveal.in { opacity: 1; transform: none; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
+
+@media(max-width:768px){
+  .nav-inner,.work,.process,.about-strip,.contact-strip-inner{padding:0 20px}
+  .nav-center{display:none}
+  .hero-inner{padding:0 20px}
+  .hero-bottom{grid-template-columns:1fr}
+  .hero-desc{grid-column:1/-1}
+  .hero-meta{grid-column:1/-1;align-items:flex-start;margin-top:24px}
+  .project-row{grid-template-columns:40px 1fr}
+  .pr-type,.pr-cta{display:none}
+  .process-grid{grid-template-columns:1fr 1fr}
+  .about-inner{grid-template-columns:1fr}
+  .about-title-col,.about-body-col{grid-column:1/-1}
+  .about-body-col{margin-top:32px}
+  .contact-strip-inner{grid-template-columns:1fr}
+  .contact-left,.contact-right{grid-column:1/-1}
+  .contact-right{align-items:flex-start;margin-top:32px}
+  footer{flex-direction:column;gap:8px;text-align:center;padding:20px}
+}
+</style>
+</head>
+<body>
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="cur-ring"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Dahye Yu</a>
+    <span class="nav-center">Product Designer — NL</span>
+    <div class="nav-right">
+      <a href="index.html#work">Work</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <span class="hero-top-label">Portfolio — 2025</span>
+      <span class="hero-top-avail"><span class="avail-dot"></span>Available for freelance</span>
+    </div>
+    <div class="hero-title-wrap">
+      <h1 class="hero-title">
+        Designing<br>
+        <em>products</em> that<br>
+        <span class="blue">work.</span>
+      </h1>
+    </div>
+    <div class="hero-bottom">
+      <p class="hero-desc">
+        I'm <strong>Dahye Yu</strong>, a freelance product designer based in <strong>the Netherlands</strong>. With 8+ years of experience across Korea and the Netherlands, I craft digital experiences that are as functional as they are memorable.
+      </p>
+      <div class="hero-meta">
+        <span class="hero-meta-item">Location — <span>Netherlands</span></span>
+        <span class="hero-meta-item">Discipline — <span>Product Design</span></span>
+        <span class="hero-meta-item">Experience — <span>8+ years</span></span>
+        <span class="hero-meta-item">Languages — <span>EN / KO</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="work">
+    <div class="section-bar">
+      <span class="section-bar-label">Selected Work</span>
+      <span class="section-bar-label">04 Projects</span>
+    </div>
+
+    <a href="mygoals.html" class="project-row reveal">
+      <span class="pr-num">01</span>
+      <div class="pr-main">
+        <div class="pr-cat">Mobile Application · Healthcare</div>
+        <div class="pr-title">My Goals</div>
+        <div class="pr-desc">Designed an interval timer app and design system for a healthcare startup. Focused on accessibility, customisation, and clear information hierarchy.</div>
+        <div class="pr-tags">
+          <span class="pr-tag">UX Research</span>
+          <span class="pr-tag">Design System</span>
+          <span class="pr-tag">Prototyping</span>
+        </div>
+      </div>
+      <span class="pr-type">Mobile App</span>
+      <span class="pr-cta">Case Study <span class="pr-cta-arrow">↗</span></span>
+    </a>
+
+    <a href="cheese-counter.html" class="project-row reveal">
+      <span class="pr-num">02</span>
+      <div class="pr-main">
+        <div class="pr-cat">Mobile Application · Cross-Platform</div>
+        <div class="pr-title">Cheese Counter</div>
+        <div class="pr-desc">Led the redesign of a cross-platform reward survey app for South Korea's market leader. Data dashboards, design system, and component library.</div>
+        <div class="pr-tags">
+          <span class="pr-tag">Data Visualization</span>
+          <span class="pr-tag">Component Library</span>
+          <span class="pr-tag">iOS / Android</span>
+        </div>
+      </div>
+      <span class="pr-type">Cross-Platform</span>
+      <span class="pr-cta">Case Study <span class="pr-cta-arrow">↗</span></span>
+    </a>
+
+    <a href="zombie-run.html" class="project-row reveal">
+      <span class="pr-num">03</span>
+      <div class="pr-main">
+        <div class="pr-cat">Branding · Sports Festival</div>
+        <div class="pr-title">Zombie Run Festival</div>
+        <div class="pr-desc">Brand identity for Korea's first and largest costume sports festival — 100,000 runners across seven cities. Logo, packaging, and visual system.</div>
+        <div class="pr-tags">
+          <span class="pr-tag">Brand Strategy</span>
+          <span class="pr-tag">Visual Identity</span>
+          <span class="pr-tag">Package Design</span>
+        </div>
+      </div>
+      <span class="pr-type">Branding</span>
+      <span class="pr-cta">Case Study <span class="pr-cta-arrow">↗</span></span>
+    </a>
+
+    <a href="#" class="project-row reveal">
+      <span class="pr-num">04</span>
+      <div class="pr-main">
+        <div class="pr-cat">New Project · 2025</div>
+        <div class="pr-title">[ Your New Project ]</div>
+        <div class="pr-desc">Add your new project description here.</div>
+        <div class="pr-tags"><span class="pr-tag">Coming Soon</span></div>
+      </div>
+      <span class="pr-type">TBD</span>
+      <span class="pr-cta">Case Study <span class="pr-cta-arrow">↗</span></span>
+    </a>
+  </div>
+</section>
+
+<section class="process reveal">
+  <div class="work">
+    <div class="section-bar"><span class="section-bar-label">How I Work</span></div>
+  </div>
+  <div style="max-width:1200px;margin:0 auto;padding:0 48px;">
+    <div class="process-grid">
+      <div class="process-step"><div class="ps-num">01</div><div class="ps-title">Understand</div><div class="ps-desc">Research, user interviews, competitive analysis. Building a deep understanding of the problem space before any sketches.</div></div>
+      <div class="process-step"><div class="ps-num">02</div><div class="ps-title">Define</div><div class="ps-desc">Synthesise insights into clear problem statements, user journeys, and design principles that guide every decision.</div></div>
+      <div class="process-step"><div class="ps-num">03</div><div class="ps-title">Design</div><div class="ps-desc">Wireframes to high-fidelity. Iterating rapidly, testing early, and building scalable design systems alongside the product.</div></div>
+      <div class="process-step"><div class="ps-num">04</div><div class="ps-title">Deliver</div><div class="ps-desc">Pixel-perfect handoff, developer collaboration, and measuring impact post-launch. Design that ships is design that works.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="about-strip reveal">
+  <div style="max-width:1200px;margin:0 auto;padding:0 48px;">
+    <div class="section-bar"><span class="section-bar-label">About</span><a href="about.html" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3);text-decoration:none;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink3)'">Full Bio →</a></div>
+  </div>
+  <div class="about-strip">
+    <div class="about-inner">
+      <div class="about-title-col">
+        <h2 class="about-title">Detail-driven.<br><em>User-focused.</em><br>Outcome-led.</h2>
+      </div>
+      <div class="about-body-col">
+        <p class="about-body">I'm a digital product designer working at the intersection of brand, strategy, and user experience. With <strong>8+ years of experience</strong> across Korea and the Netherlands, I partner with early-stage and sustainability-focused brands to clarify their positioning and translate it into cohesive digital systems.<br><br>Currently open to new freelance engagements.</p>
+        <div class="skills-grid">
+          <div class="skill-cell">Product Design</div><div class="skill-cell">UX Research</div>
+          <div class="skill-cell">Design Systems</div><div class="skill-cell">Prototyping</div>
+          <div class="skill-cell">Brand Strategy</div><div class="skill-cell">Figma</div>
+          <div class="skill-cell">Mobile (iOS/Android)</div><div class="skill-cell">Responsive Web</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-strip reveal">
+  <div style="max-width:1200px;margin:0 auto;padding:0 48px;border-top:1px solid var(--rule);">
+    <div class="section-bar"><span class="section-bar-label">Contact</span></div>
+  </div>
+  <div class="contact-strip-inner">
+    <div class="contact-left">
+      <h2 class="contact-title">Let's build<br>something<br><em>great.</em></h2>
+      <a href="mailto:dahyeyu201@gmail.com" class="contact-email-link">dahyeyu201@gmail.com</a>
+    </div>
+    <div class="contact-right">
+      <div class="contact-info">Based in<br><span style="color:#111">Netherlands</span><br><br>Available for<br><span style="color:#111">Freelance Projects</span><br><br>Response within<br><span style="color:#111">24 hours</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Dahye Yu</span>
+  <span>Product Designer — Netherlands</span>
+  <span>All rights reserved</span>
+</footer>
+
+<script>
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+const io=new IntersectionObserver(es=>es.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('in'),i*70);}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
