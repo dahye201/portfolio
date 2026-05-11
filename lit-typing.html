@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Literary Typing Studio — Dahye Yu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ffffff;--ink:#111111;--ink2:#888888;--ink3:#bbbbbb;--rule:#e8e8e8;--hover:#f5f5f5;--accent:#0033ff;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+.cur{position:fixed;width:6px;height:6px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+.cur-ring{position:fixed;width:28px;height:28px;border:1px solid rgba(0,51,255,.25);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .35s cubic-bezier(.16,1,.3,1),height .35s,border-color .25s;}
+body:has(a:hover) .cur-ring{width:48px;height:48px;border-color:rgba(0,51,255,.5);}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid var(--rule);background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 48px;height:56px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;}
+.nav-logo{font-family:'Instrument Serif',serif;font-style:italic;font-size:18px;color:var(--ink);text-decoration:none;}
+.nav-center{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);}
+.nav-right{display:flex;justify-content:flex-end;gap:28px;}
+.nav-right a{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink2);text-decoration:none;transition:color .15s;}
+.nav-right a:hover{color:var(--ink);}
+.wrap{max-width:1200px;margin:0 auto;padding:0 48px;}
+.cs-hero{padding-top:56px;border-bottom:1px solid var(--rule);}
+.cs-breadcrumb{padding:20px 0;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;}
+.cs-breadcrumb-left{display:flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3);}
+.cs-breadcrumb-left a{color:var(--ink3);text-decoration:none;}.cs-breadcrumb-left a:hover{color:var(--ink);}
+.sep{color:var(--rule);}
+.cs-breadcrumb-right{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3);}
+.cs-title-block{padding:64px 0 0;}
+.cs-overline{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;}
+.cs-title{font-family:'Instrument Serif',serif;font-size:clamp(52px,8vw,104px);font-weight:400;line-height:.95;letter-spacing:-0.03em;margin-bottom:40px;}
+.cs-title em{font-style:italic;color:var(--ink2);}
+.cs-meta-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--rule);border-left:1px solid var(--rule);}
+.cs-meta-cell{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:20px 24px;}
+.cs-meta-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;}
+.cs-meta-value{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.05em;color:var(--ink);}
+.cs-cover{background:var(--hover);border-top:1px solid var(--rule);overflow:hidden;}
+.cs-cover img{width:100%;display:block;max-height:600px;object-fit:cover;object-position:center top;}
+.cs-body{padding:80px 0;}
+.cs-section{margin-bottom:88px;}
+.cs-section-header{border-top:1px solid var(--rule);padding:20px 0 40px;display:flex;gap:40px;align-items:baseline;}
+.cs-num{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--ink3);flex-shrink:0;width:36px;}
+.cs-section-title{font-family:'Instrument Serif',serif;font-size:clamp(26px,3.2vw,42px);font-weight:400;letter-spacing:-0.02em;line-height:1.1;}
+.cs-section-title em{font-style:italic;color:var(--ink2);}
+.cs-2col{display:grid;grid-template-columns:36px 1fr;gap:0 40px;}
+.cs-col{grid-column:2;}
+.body-text{font-size:15px;line-height:1.85;color:var(--ink2);max-width:680px;}
+.body-text+.body-text{margin-top:18px;}
+.body-text strong{color:var(--ink);font-weight:400;}
+.img-full{width:100%;display:block;border:1px solid var(--rule);border-radius:4px;margin-top:32px;}
+.img-caption{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3);margin-top:10px;}
+.stat-bar{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid var(--rule);margin-top:32px;}
+.stat-cell{border-right:1px solid var(--rule);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:28px 24px;}
+.stat-num{font-family:'Instrument Serif',serif;font-size:44px;font-style:italic;color:var(--ink);line-height:1;margin-bottom:6px;}
+.stat-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);}
+.stat-note{font-size:12px;color:var(--ink2);margin-top:6px;line-height:1.5;}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);border-left:1px solid var(--rule);margin-top:32px;}
+.feature-card{border-right:1px solid var(--rule);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:28px 24px;transition:background .2s;}
+.feature-card:hover{background:var(--hover);}
+.feature-icon{font-size:20px;margin-bottom:14px;}
+.feature-title{font-family:'Instrument Serif',serif;font-size:17px;font-style:italic;margin-bottom:8px;}
+.feature-desc{font-size:12px;line-height:1.65;color:var(--ink2);}
+.live-link{display:inline-flex;align-items:center;gap:10px;margin-top:28px;padding:14px 28px;border:1px solid var(--ink);border-radius:2px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);text-decoration:none;transition:background .2s,color .2s;}
+.live-link:hover{background:var(--ink);color:#fff;}
+.learning-box{background:var(--hover);border:1px solid var(--rule);border-radius:4px;padding:40px;margin-top:32px;max-width:680px;}
+.learning-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:16px;}
+.learning-text{font-size:15px;line-height:1.85;color:var(--ink2);}
+.learning-text strong{color:var(--ink);font-weight:400;}
+.cs-next{border-top:1px solid var(--rule);padding:60px 0 80px;display:flex;justify-content:space-between;align-items:center;}
+.cs-next-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;}
+.cs-next-title{font-family:'Instrument Serif',serif;font-size:clamp(28px,3vw,44px);font-weight:400;letter-spacing:-0.02em;}
+.cs-next-link{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);transition:color .2s;}
+.cs-next-link:hover{color:var(--accent);}
+.cs-next-arrow{width:48px;height:48px;border:1px solid var(--rule);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;transition:border-color .2s,background .2s,color .2s,transform .3s cubic-bezier(.16,1,.3,1);}
+.cs-next-link:hover .cs-next-arrow{border-color:var(--accent);background:var(--accent);color:#fff;transform:rotate(-45deg);}
+footer{border-top:1px solid var(--rule);max-width:1200px;margin:0 auto;padding:20px 48px;display:flex;justify-content:space-between;align-items:center;}
+footer span{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s cubic-bezier(.16,1,.3,1);}
+.reveal.in{opacity:1;transform:none;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@media(max-width:768px){.nav-inner,.wrap{padding:0 20px;}.nav-center{display:none;}.cs-meta-row{grid-template-columns:1fr 1fr;}.cs-2col{grid-template-columns:1fr;}.cs-col{grid-column:1;}.stat-bar{grid-template-columns:1fr 1fr;}.feature-grid{grid-template-columns:1fr;}.cs-next{flex-direction:column;align-items:flex-start;gap:32px;}footer{flex-direction:column;gap:8px;text-align:center;padding:20px;}}
+</style>
+</head>
+<body>
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="cur-ring"></div>
+<nav><div class="nav-inner"><a href="index.html" class="nav-logo">Dahye Yu</a><span class="nav-center">Case Study</span><div class="nav-right"><a href="index.html#work">Work</a><a href="about.html">About</a><a href="contact.html">Contact</a></div></div></nav>
+
+<section class="cs-hero">
+  <div class="wrap">
+    <div class="cs-breadcrumb">
+      <div class="cs-breadcrumb-left"><a href="index.html">Work</a><span class="sep">/</span><span>Literary Typing Studio</span></div>
+      <span class="cs-breadcrumb-right">04 / 04</span>
+    </div>
+    <div class="cs-title-block" style="opacity:0;animation:fadeUp .9s ease .1s forwards;">
+      <div class="cs-overline">Web Application · Design + Vibe Coding · 2026</div>
+      <h1 class="cs-title">Literary<br><em>Typing Studio</em></h1>
+      <div class="cs-meta-row">
+        <div class="cs-meta-cell"><div class="cs-meta-label">Role</div><div class="cs-meta-value">Design + Development</div></div>
+        <div class="cs-meta-cell"><div class="cs-meta-label">Platform</div><div class="cs-meta-value">Web (Desktop + Mobile)</div></div>
+        <div class="cs-meta-cell"><div class="cs-meta-label">Built with</div><div class="cs-meta-value">Vibe Coding + AI</div></div>
+        <div class="cs-meta-cell"><div class="cs-meta-label">Live</div><div class="cs-meta-value"><a href="https://lit-typing.com" target="_blank" style="color:var(--accent);text-decoration:none;">lit-typing.com ↗</a></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="cs-cover"><img src="images/lit-cover.png" alt="Literary Typing Studio — Typing Interface"></div>
+</section>
+
+<div class="wrap"><div class="cs-body">
+
+  <div class="cs-section reveal">
+    <div class="cs-section-header"><span class="cs-num">01</span><h2 class="cs-section-title">Project <em>Overview</em></h2></div>
+    <div class="cs-2col"><div></div><div class="cs-col">
+      <p class="body-text">Literary Typing Studio is a <strong>web-based typing practice app built around classic literature</strong>. Instead of typing random sentences or code snippets, users type through the actual text of great novels — Pride and Prejudice, The Great Gatsby, Crime and Punishment, and more.</p>
+      <p class="body-text">As a UX designer and book lover, I wanted to turn typing practice into something more meaningful. <strong>Typing a masterpiece letter by letter is the ultimate form of close reading</strong> — you feel the author's rhythm, the weight of their sentences, the craft behind every word.</p>
+      <a href="https://lit-typing.com" target="_blank" class="live-link">Visit lit-typing.com ↗</a>
+    </div></div>
+  </div>
+
+  <div class="cs-section reveal">
+    <div class="cs-section-header"><span class="cs-num">02</span><h2 class="cs-section-title">Problem &amp;<br><em>Motivation</em></h2></div>
+    <div class="cs-2col"><div></div><div class="cs-col">
+      <p class="body-text">Existing typing tools like Monkeytype or Keybr are built purely around <strong>speed metrics</strong> — random words, code snippets, or nonsense phrases. They optimise for WPM but offer no depth, no meaning, no reason to keep going beyond the number.</p>
+      <p class="body-text">I wanted to build something that answered a different question: <strong>what if typing practice felt like an experience worth having?</strong> A space that respects both the user's time and the literature they're engaging with.</p>
+    </div></div>
+    <div class="stat-bar">
+      <div class="stat-cell"><div class="stat-num">∞</div><div class="stat-label">Pages to type</div><div class="stat-note">Full novels — not just excerpts</div></div>
+      <div class="stat-cell"><div class="stat-num">€12</div><div class="stat-label">One-time unlock</div><div class="stat-note">No subscription — own it forever</div></div>
+      <div class="stat-cell"><div class="stat-num">Ch 1–3</div><div class="stat-label">Free to try</div><div class="stat-note">First 3 chapters always free</div></div>
+      <div class="stat-cell"><div class="stat-num">1928</div><div class="stat-label">Public domain</div><div class="stat-note">All works pre-1928, copyright free</div></div>
+    </div>
+  </div>
+
+  <div class="cs-section reveal">
+    <div class="cs-section-header"><span class="cs-num">03</span><h2 class="cs-section-title">Design <em>Decisions</em></h2></div>
+    <div class="cs-2col"><div></div><div class="cs-col">
+      <p class="body-text">Every design choice was made to <strong>get out of the way of the text</strong>. The interface is deliberately minimal — warm off-white background, serif typography, no distracting UI chrome. The reading experience should feel like a page, not an app.</p>
+      <p class="body-text">The <strong>vintage typewriter sounds</strong> were a deliberate UX decision — tactile audio feedback that reinforces the literary atmosphere and makes each keystroke feel physical and satisfying.</p>
+    </div></div>
+    <img src="images/lit-features.png" class="img-full" alt="Library & Progress screens">
+    <p class="img-caption">Library (21 works) and Progress tracking — real session data from the live product</p>
+    <img src="images/lit-chapters-crop.png" class="img-full" style="margin-top:16px;" alt="Chapter selection panel">
+    <p class="img-caption">Chapter panel — free chapters 1–3, locked chapters unlock with a one-time €12.99 payment</p>
+    <div class="feature-grid" style="margin-top:48px;">
+      <div class="feature-card"><div class="feature-icon">📖</div><div class="feature-title">Literature-first</div><div class="feature-desc">Real novels, real sentences. The content itself becomes the motivation to keep typing — not just the WPM counter.</div></div>
+      <div class="feature-card"><div class="feature-icon">⌨️</div><div class="feature-title">Typewriter sounds</div><div class="feature-desc">Meticulously crafted vintage sound design. Each keystroke feels deliberate — like you're the author, not just practicing.</div></div>
+      <div class="feature-card"><div class="feature-icon">📊</div><div class="feature-title">Progress tracking</div><div class="feature-desc">WPM history, accuracy over time, session streaks. Sign in once and your progress follows you everywhere.</div></div>
+    </div>
+  </div>
+
+  <div class="cs-section reveal">
+    <div class="cs-section-header"><span class="cs-num">04</span><h2 class="cs-section-title">Monetisation &amp;<br><em>Business Model</em></h2></div>
+    <div class="cs-2col"><div></div><div class="cs-col">
+      <p class="body-text">The pricing model was a deliberate UX decision: <strong>no subscription</strong>. Subscriptions create anxiety — users feel pressured to "get their money's worth" every month. A one-time payment of €12.99 unlocks all chapters and all works permanently.</p>
+      <p class="body-text">The first 3 chapters of every work are always free — enough to experience the product fully, build a habit, and decide whether it's worth keeping. <strong>Payment is never forced, only offered.</strong></p>
+    </div></div>
+    <div class="stat-bar" style="margin-top:32px;">
+      <div class="stat-cell"><div class="stat-num">Free</div><div class="stat-label">Chapters 1–3</div><div class="stat-note">Every work, no sign-in required</div></div>
+      <div class="stat-cell"><div class="stat-num">€12.99</div><div class="stat-label">One-time unlock</div><div class="stat-note">All chapters, all works, forever</div></div>
+      <div class="stat-cell"><div class="stat-num">21</div><div class="stat-label">Works in library</div><div class="stat-note">Novels, essays, short stories</div></div>
+      <div class="stat-cell"><div class="stat-num">Google</div><div class="stat-label">Sign in</div><div class="stat-note">Progress syncs across devices</div></div>
+    </div>
+  </div>
+
+  <div class="cs-section reveal">
+    <div class="cs-section-header"><span class="cs-num">05</span><h2 class="cs-section-title">Built with<br><em>Vibe Coding</em></h2></div>
+    <div class="cs-2col"><div></div><div class="cs-col">
+      <p class="body-text">This project was built using a <strong>vibe coding approach</strong> — using AI as a development partner to move from design decisions directly to a live, shipped product. As a designer, I was able to describe what I wanted the experience to feel like, iterate rapidly, and ship something real without a separate engineering team.</p>
+      <p class="body-text">The result is a <strong>fully functional web app with Google authentication, Stripe payments, real-time WPM tracking, and a full novel library</strong> — built end-to-end as a solo project. It proved that the gap between design and development can be collapsed when you have the right tools and approach.</p>
+    </div></div>
+  </div>
+
+  <div class="cs-section reveal">
+    <div class="cs-section-header"><span class="cs-num">06</span><h2 class="cs-section-title">What I've <em>Learned</em></h2></div>
+    <div class="cs-2col"><div></div><div class="cs-col">
+      <div class="learning-box">
+        <div class="learning-label">Reflection</div>
+        <p class="learning-text">Building a product solo — from first sketch to live URL — taught me more about UX than any client project. Every decision had to hold up under real use, not just in Figma.<br><br><strong>The constraint of shipping alone sharpened my design thinking.</strong> When you can't hand off to a developer, you learn to design only what truly matters. And when your users are real people, you learn fast what works and what doesn't.</p>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="cs-next reveal">
+    <div><div class="cs-next-label">Back to start</div><div class="cs-next-title">My Goals App</div></div>
+    <a href="mygoals.html" class="cs-next-link">View Case Study <span class="cs-next-arrow">↗</span></a>
+  </div>
+
+</div></div>
+
+<footer>
+  <span>© 2026 Dahye Yu</span>
+  <span>Literary Typing Studio — Case Study</span>
+  <span><a href="index.html" style="color:var(--ink3);text-decoration:none;">← Back to Work</a></span>
+</footer>
+<script>
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+const io=new IntersectionObserver(es=>es.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('in'),i*70);}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
