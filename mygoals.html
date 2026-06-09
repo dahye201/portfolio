@@ -71,6 +71,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid var(
 .cs-goals{border-left:2px solid var(--accent);padding-left:24px;margin-top:24px;display:flex;flex-direction:column;gap:16px;}
 .cs-goal-item{font-size:14px;line-height:1.7;color:var(--ink2);}
 .cs-goal-item strong{color:var(--ink);font-weight:400;}
+.stat-bar{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid var(--rule);margin-top:0;}
+.stat-cell{border-right:1px solid var(--rule);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:28px 24px;}
+.stat-num{font-family:'Instrument Serif',serif;font-size:44px;font-style:italic;color:var(--ink);line-height:1;margin-bottom:6px;}
+.stat-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);}
+.stat-note{font-size:12px;color:var(--ink2);margin-top:6px;line-height:1.5;}
 
 /* LEARNING BLOCK */
 .cs-learning{background:var(--hover-bg);border:1px solid var(--rule);border-radius:4px;padding:40px;margin-top:32px;}
@@ -100,6 +105,7 @@ footer span{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:
   .cs-text-grid{grid-template-columns:1fr;}
   .cs-text-col{grid-column:1;}
   .cs-img-2col{grid-template-columns:1fr;}
+  .stat-bar{grid-template-columns:1fr 1fr;}
   .cs-next{flex-direction:column;align-items:flex-start;gap:32px;}
   footer{flex-direction:column;gap:8px;text-align:center;padding:20px;}
 }
@@ -150,6 +156,19 @@ footer span{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:
 <div class="cs-wrap">
   <div class="cs-body">
 
+    <!-- AT A GLANCE -->
+    <div class="reveal" style="margin-bottom:88px;">
+      <div style="padding:20px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin-bottom:0;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink3);">At a glance</span>
+      </div>
+      <div class="stat-bar">
+        <div class="stat-cell"><div class="stat-num">15</div><div class="stat-label">Research participants</div><div class="stat-note">Card sorting study</div></div>
+        <div class="stat-cell"><div class="stat-num">4</div><div class="stat-label">Design goals</div><div class="stat-note">All validated through user testing</div></div>
+        <div class="stat-cell"><div class="stat-num">1</div><div class="stat-label">Design system</div><div class="stat-note">Full tokens + component library</div></div>
+        <div class="stat-cell"><div class="stat-num">Leaner</div><div class="stat-label">Onboarding</div><div class="stat-note">Simplified after user testing — users wanted to start a timer, not take a tour</div></div>
+      </div>
+    </div>
+
     <!-- OVERVIEW -->
     <div class="cs-section reveal">
       <div class="cs-section-header">
@@ -174,8 +193,8 @@ footer span{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:
       <div class="cs-text-grid">
         <div></div>
         <div class="cs-text-col">
-          <p class="cs-text">Traditional interval timer apps <strong>lack the flexibility and customisation options</strong> necessary to accommodate the diverse needs of users. Many fitness enthusiasts and athletes prefer to follow personalised interval training programs tailored to their specific goals and fitness levels.</p>
-          <p class="cs-text">However, existing apps often offer pre-set timers that do not align with individual preferences, limiting the user's ability to optimise their workout experience.</p>
+          <p class="cs-text">Most interval timer apps were built for one type of person: a serious athlete with a fixed training program. Anyone with a more flexible or evolving routine — injury recovery, mixed training, custom intervals — was stuck trying to shoehorn their needs into a timer that wasn't designed for them.</p>
+          <p class="cs-text">The brief came from a real gap: <strong>no app on the market let you fully own your training structure</strong>. The goal wasn't to build another timer. It was to build the one people would actually keep using.</p>
           <div class="cs-goals">
             <div class="cs-goal-item"><strong>Goal 01 —</strong> Enable users to create personalised interval timers based on their specific workout routines, goals, and fitness levels.</div>
             <div class="cs-goal-item"><strong>Goal 02 —</strong> Provide a user-friendly and intuitive interface that simplifies creating and managing custom timers.</div>
@@ -210,11 +229,11 @@ footer span{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:
       <div class="cs-text-grid">
         <div></div>
         <div class="cs-text-col">
-          <p class="cs-text">Conducted user research to understand the needs, preferences, and pain points of individuals interested in interval training. A <strong>card sorting study with 15 participants</strong> provided key findings:</p>
+          <p class="cs-text">I ran a <strong>card sorting study with 15 participants</strong> — people who already used interval training in their routines — to understand how they grouped features and what they expected the app to do. Three clear patterns emerged, each of which drove a specific design decision:</p>
           <div class="cs-goals">
-            <div class="cs-goal-item"><strong>Measurement Preferences —</strong> Participants consistently grouped tracking features (distance, pace, history) into a dedicated category, leading to a consolidated "Measurement" section.</div>
-            <div class="cs-goal-item"><strong>Goal Setting —</strong> Strong desire for personalised workout goals, reminders, and progress tracking — resulting in an "add a note" feature for in-app goal setting.</div>
-            <div class="cs-goal-item"><strong>Visual Preferences —</strong> Clear, intuitive interface with consistent colour schemes and distinguishable visual elements were highly valued.</div>
+            <div class="cs-goal-item"><strong>Measurement first —</strong> Participants consistently grouped tracking features (distance, pace, history) together — not scattered across settings. This led directly to a consolidated "Measurement" section with all tracking in one place.</div>
+            <div class="cs-goal-item"><strong>Goals need a home —</strong> There was a strong, consistent desire for goal-setting features with reminders and visible progress. The result: an "add a note" feature that let users anchor a session to a personal goal without leaving the app.</div>
+            <div class="cs-goal-item"><strong>Visual consistency matters —</strong> Participants flagged confusion in apps with inconsistent colour use. This locked in the decision to build the design system before high-fidelity — not alongside it.</div>
           </div>
           <img src="images/mygoals-persona.png" style="width:100%;display:block;border:1px solid var(--rule);border-radius:4px;margin-top:32px;" alt="User Persona — Mark Johnson">
           <img src="images/mygoals-userflow.png" style="width:100%;display:block;border:1px solid var(--rule);border-radius:4px;margin-top:16px;" alt="User Flow">
@@ -238,10 +257,25 @@ footer span{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:
       </div>
     </div>
 
-    <!-- LEARNINGS -->
+    <!-- OUTCOME -->
     <div class="cs-section reveal">
       <div class="cs-section-header">
         <span class="cs-section-num">06</span>
+        <h2 class="cs-section-title">Outcome &amp; <em>Impact</em></h2>
+      </div>
+      <div class="cs-text-grid">
+        <div></div>
+        <div class="cs-text-col">
+          <p class="cs-text">The prototype was validated against the 4 design goals with target users. The biggest piece of feedback was around the onboarding flow — participants made it clear they wanted to create a timer on their first session, not walk through a guided tour first. <strong>The flow was simplified and the time-to-first-timer dropped significantly.</strong></p>
+          <p class="cs-text">The design system ended up being the project's most valuable deliverable. It made the high-fidelity phase move fast and gave the engineering team a single reference for every component state. What looked like upfront overhead turned out to be the thing that saved the most time.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEARNINGS -->
+    <div class="cs-section reveal">
+      <div class="cs-section-header">
+        <span class="cs-section-num">07</span>
         <h2 class="cs-section-title">What I've <em>Learned</em></h2>
       </div>
       <div class="cs-text-grid">
@@ -249,7 +283,7 @@ footer span{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:
         <div class="cs-text-col">
           <div class="cs-learning">
             <div class="cs-learning-label">Reflection</div>
-            <p class="cs-learning-text">Taking on this project was a great experience. I learned about the importance of <strong>building a design system and sticking to it</strong>, even if the task is relatively simple. More in-person data collection and earlier user flows would have helped avoid spending time on onboarding flows that ended up being unnecessarily long. These learnings shaped my understanding of user-centric design, the value of iteration, and the significance of attention to detail.</p>
+            <p class="cs-learning-text">The lesson I took from this project is to front-load the user flow work. I spent too long designing an onboarding sequence that users didn't want — they just wanted to start a timer, not take a tour. Mapping the core flows before opening Figma would have saved a full week of redesign.<br><br><strong>Build the design system before high-fidelity, not during it.</strong> Once the tokens and components were locked in, every screen came together quickly and consistently. That discipline is now just how I start every project.</p>
           </div>
         </div>
       </div>
